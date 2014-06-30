@@ -1,7 +1,6 @@
 package net.unicon.cas.config
 
-import com.github.inspektr.audit.AuditTrailManager
-import com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager
+import net.unicon.cas.library.config.EnableDefaultCasAuditTrailManager
 import org.jasig.cas.authentication.AcceptUsersAuthenticationHandler
 import org.jasig.cas.authentication.AnyAuthenticationPolicy
 import org.jasig.cas.authentication.AuthenticationManager
@@ -33,10 +32,16 @@ import org.springframework.context.annotation.Configuration
  *
  * By default the name of {@code @Bean} methods results in the same bean id within application context.
  *
+ * {@link EnableDefaultCasAuditTrailManager} is the custom Spring meta annotation that imports a separate
+ * config class for {@link com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager} - to simulate/demonstrate
+ * capability of defining and seamlessly plugging these low-level plumbing configurations via external jars, etc.
+ * This would allow for 'micro-service' style configuration management and easy to manage 3-rd party plugin development for CAS.
+ *
  * @author Dmitriy Kopylenko
  * @see <a href="http://docs.spring.io/spring/docs/4.0.5.RELEASE/spring-framework-reference/htmlsingle/#beans-java">Spring Javaconfig</a>
  */
 @Configuration
+@EnableDefaultCasAuditTrailManager
 class DeployerConfig {
 
     @Bean
@@ -95,11 +100,6 @@ class DeployerConfig {
             ]
             return it
         }
-    }
-
-    @Bean
-    AuditTrailManager auditTrailManager() {
-        new Slf4jLoggingAuditTrailManager()
     }
 
     @Bean
